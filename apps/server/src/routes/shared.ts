@@ -48,7 +48,7 @@ export function setSessionCookie(ctx: AppContext, reply: FastifyReply, token: st
   reply.setCookie(SESSION_COOKIE, token, {
     path: '/',
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: ctx.config.cookieSameSite,
     secure: ctx.config.secureCookies,
     maxAge: ctx.config.sessionTtlDays * 86_400,
   });
@@ -58,7 +58,7 @@ export function clearSessionCookie(ctx: AppContext, reply: FastifyReply): void {
   reply.clearCookie(SESSION_COOKIE, {
     path: '/',
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: ctx.config.cookieSameSite,
     secure: ctx.config.secureCookies,
   });
 }

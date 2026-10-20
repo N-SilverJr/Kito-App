@@ -207,6 +207,68 @@ describe('health and authentication', () => {
   });
 });
 
+describe('cross-origin clients (native shells and split deployments)', () => {
+  it('answers CORS preflight with credentials for an allowed origin only', async () => {
+    const { app } = await makeApp();
+    const preflight = await app.inject({
+      method: 'OPTIONS',
+      url: '/api/meals',
+      headers: {
+        origin: ORIGIN,
+        'access-control-request-method': 'POST',
+        'access-control-request-headers': 'content-type,idempotency-key',
+      },
+    });
+    expect(preflight.statusCode).toBe(204);
+    expect(preflight.headers['access-control-allow-origin']).toBe(ORIGIN);
+    expect(preflight.headers['access-control-allow-credentials']).toBe('true');
+    expect(String(preflight.headers['access-control-allow-headers'])).toContain('Idempotency-Key');
+    expect(String(preflight.headers.vary)).toContain('Origin');
+
+    const foreign = await app.inject({
+      method: 'OPTIONS',
+      url: '/api/meals',
+      headers: { origin: 'https://evil.example', 'access-control-request-method': 'POST' },
+    });
+    expect(foreign.statusCode).toBe(403);
+    expect(foreign.headers['access-control-allow-origin']).toBeUndefined();
+  });
+
+  it('can issue a SameSite=None session cookie for a native shell', async () => {
+    const { app } = await makeApp({ cookieSameSite: 'none', secureCookies: true });
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/auth/register',
+      headers: { origin: ORIGIN },
+      payload: { email: 'native@example.com', password: 'correct horse battery', display_name: 'Aline' },
+    });
+    expect(res.statusCode).toBe(201);
+    const raw = res.headers['set-cookie'];
+    const cookie = Array.isArray(raw) ? raw[0] : raw;
+    expect(String(cookie)).toMatch(/SameSite=None/i);
+    expect(String(cookie)).toMatch(/Secure/i);
+    expect(String(cookie)).toMatch(/HttpOnly/i);
+  });
+
+  it('forces Secure when SameSite=None is requested through env config', async () => {
+    const previous = process.env.SESSION_COOKIE_SAMESITE;
+    const previousSecure = process.env.SESSION_COOKIE_SECURE;
+    process.env.SESSION_COOKIE_SAMESITE = 'none';
+    process.env.SESSION_COOKIE_SECURE = 'false';
+    try {
+      const { loadConfig } = await import('./env.js');
+      const config = loadConfig({ databasePath: ':memory:' });
+      expect(config.cookieSameSite).toBe('none');
+      expect(config.secureCookies).toBe(true);
+    } finally {
+      if (previous === undefined) delete process.env.SESSION_COOKIE_SAMESITE;
+      else process.env.SESSION_COOKIE_SAMESITE = previous;
+      if (previousSecure === undefined) delete process.env.SESSION_COOKIE_SECURE;
+      else process.env.SESSION_COOKIE_SECURE = previousSecure;
+    }
+  });
+});
+
 describe('onboarding, dashboard and meals', () => {
   it('completes onboarding and derives goals from the profile', async () => {
     const { app } = await makeApp();

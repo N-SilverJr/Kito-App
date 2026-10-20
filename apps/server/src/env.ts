@@ -1,6 +1,7 @@
 import path from 'node:path';
 
 export type AiProviderId = 'none' | 'openai' | 'gemini' | 'anthropic';
+export type CookieSameSite = 'lax' | 'strict' | 'none';
 
 export interface Config {
   port: number;
@@ -10,6 +11,8 @@ export interface Config {
   databasePath: string;
   migrationsDir: URL;
   secureCookies: boolean;
+  /** Set to 'none' only when a native shell (Capacitor) calls this API cross-site. */
+  cookieSameSite: CookieSameSite;
   exposeDevTokens: boolean;
   serveWeb: boolean;
   webDistPath: string;
@@ -52,6 +55,9 @@ export function loadConfig(overrides: Partial<Config> = {}): Config {
   const aiProvider: AiProviderId =
     provider === 'openai' || provider === 'gemini' || provider === 'anthropic' ? provider : 'none';
   const databasePath = env.DATABASE_PATH ?? path.join(process.cwd(), 'data', 'nutripals.db');
+  const rawSameSite = (env.SESSION_COOKIE_SAMESITE ?? 'lax').toLowerCase();
+  const cookieSameSite: CookieSameSite =
+    rawSameSite === 'none' || rawSameSite === 'strict' ? rawSameSite : 'lax';
 
   const config: Config = {
     port: num(env.PORT, 8787),
@@ -63,7 +69,9 @@ export function loadConfig(overrides: Partial<Config> = {}): Config {
       .filter(Boolean),
     databasePath,
     migrationsDir: MIGRATIONS_DIR,
-    secureCookies: bool(env.SESSION_COOKIE_SECURE, env.NODE_ENV === 'production'),
+    // Browsers reject SameSite=None without Secure, so that combination is coerced.
+    secureCookies: cookieSameSite === 'none' || bool(env.SESSION_COOKIE_SECURE, env.NODE_ENV === 'production'),
+    cookieSameSite,
     exposeDevTokens: bool(env.EXPOSE_DEV_TOKENS, env.NODE_ENV !== 'production'),
     serveWeb: bool(env.SERVE_WEB, env.NODE_ENV === 'production'),
     webDistPath: env.WEB_DIST_PATH ?? path.resolve(process.cwd(), '..', 'web', 'dist'),

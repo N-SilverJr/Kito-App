@@ -56,6 +56,9 @@ export default function Welcome() {
         </Link>
         <Link to="/login" className="btn btn-ghost btn-block">I already have an account</Link>
         <p className="legal">{DISCLAIMER}</p>
+        <p className="legal">
+          <Link to="/privacy">Privacy policy</Link>
+        </p>
       </div>
     </AuthLayout>
   );

@@ -643,6 +643,9 @@ export default function Settings() {
               <Button variant="ghost" onClick={() => void signOut()}>
                 Sign out
               </Button>
+              <Link to="/privacy" className="btn btn-ghost btn-sm">
+                Privacy policy
+              </Link>
             </div>
             <div className="danger-zone">
               <h3>Delete account</h3>

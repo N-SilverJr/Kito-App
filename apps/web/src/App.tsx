@@ -22,6 +22,7 @@ const Stats = lazy(() => import('./screens/Stats'));
 const CompanionScreen = lazy(() => import('./screens/CompanionScreen'));
 const Plans = lazy(() => import('./screens/Plans'));
 const Settings = lazy(() => import('./screens/Settings'));
+const Privacy = lazy(() => import('./screens/Privacy'));
 const NotFound = lazy(() => import('./screens/NotFound'));
 
 function Splash({ label = 'Getting things ready…' }: { label?: string }) {
@@ -81,6 +82,7 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="/onboarding" element={<OnboardingGate><Onboarding /></OnboardingGate>} />
           <Route
             path="/app"
