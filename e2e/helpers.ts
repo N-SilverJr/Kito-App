@@ -60,7 +60,9 @@ export async function signIn(page: Page, user: TestUser): Promise<void> {
 }
 
 export async function signOut(page: Page): Promise<void> {
-  await page.getByRole('button', { name: 'Sign out of NutriPals' }).click();
+  // Sign-out lives in Settings so it cannot float over content on small screens.
+  await page.goto('/app/settings');
+  await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page).toHaveURL(/\/(welcome|login)?$/);
 }
 

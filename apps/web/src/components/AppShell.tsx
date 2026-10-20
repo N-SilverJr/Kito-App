@@ -93,6 +93,10 @@ export function AppShell() {
             </div>
           </Link>
           <p className="tiny" style={{ lineHeight: 1.5 }}>{DISCLAIMER}</p>
+          <button type="button" className="rail-signout" onClick={() => void signOut()}>
+            <Icon name="logout" size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
       </aside>
 
@@ -122,10 +126,6 @@ export function AppShell() {
           <p className="version-note">{DISCLAIMER}</p>
         </main>
       </div>
-
-      <button type="button" className="signout-fab" onClick={() => void signOut()} aria-label="Sign out of NutriPals" title="Sign out">
-        <Icon name="logout" size={18} />
-      </button>
 
       <nav className="bottom-nav" aria-label="Primary">
         <NavLink to="/app" end className="bottom-link">
