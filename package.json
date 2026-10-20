@@ -1,0 +1,38 @@
+{
+  "name": "nutripals",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "NutriPals — an AI nutrition and habit companion (web/PWA monorepo)",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "build:packages": "npm run build -w @nutripals/core && npm run build -w @nutripals/api-client",
+    "dev": "npm run build:packages && node scripts/dev.mjs",
+    "build": "npm run build:packages && npm run build -w @nutripals/web && npm run build -w @nutripals/server",
+    "start": "npm run start -w @nutripals/server",
+    "typecheck": "npm run build:packages && npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "npm run test -w @nutripals/core && npm run test -w @nutripals/server && npm run test -w @nutripals/web",
+    "test:e2e": "playwright test",
+    "seed": "npm run seed -w @nutripals/server"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "@playwright/test": "^1.54.0",
+    "@types/node": "^22.15.0",
+    "eslint": "^9.30.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.2.0",
+    "prettier": "^3.6.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.0",
+    "vitest": "^3.2.4"
+  }
+}

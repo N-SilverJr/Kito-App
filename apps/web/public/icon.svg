@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="NutriPals">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14977a"/>
+      <stop offset="1" stop-color="#0b5f4d"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+  <circle cx="256" cy="286" r="132" fill="#f6e7c8"/>
+  <path d="M158 214c-26-52-18-96 6-112 26-17 58 8 70 52z" fill="#f6e7c8"/>
+  <path d="M354 214c26-52 18-96-6-112-26-17-58 8-70 52z" fill="#f6e7c8"/>
+  <path d="M170 196c-16-34-12-62 2-72 16-10 34 6 43 36z" fill="#f2b8a0"/>
+  <path d="M342 196c16-34 12-62-2-72-16-10-34 6-43 36z" fill="#f2b8a0"/>
+  <ellipse cx="256" cy="314" rx="112" ry="96" fill="#fdf6e7"/>
+  <circle cx="214" cy="292" r="12" fill="#24332d"/>
+  <circle cx="298" cy="292" r="12" fill="#24332d"/>
+  <circle cx="218" cy="288" r="4" fill="#fff"/>
+  <circle cx="302" cy="288" r="4" fill="#fff"/>
+  <path d="M256 318c-10 0-16 8-9 15 5 5 13 5 18 0 7-7 1-15-9-15z" fill="#e07a5f"/>
+  <path d="M236 346c10 12 30 12 40 0" fill="none" stroke="#24332d" stroke-width="8" stroke-linecap="round"/>
+  <path d="M186 376c18 32 56 48 70 48s52-16 70-48" fill="none" stroke="#0f7b63" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="256" cy="128" r="16" fill="#f2b23e"/>
+  <path d="M256 112c-10-18-4-34 10-40-2 16 4 26 12 32z" fill="#2f8f5b"/>
+</svg>

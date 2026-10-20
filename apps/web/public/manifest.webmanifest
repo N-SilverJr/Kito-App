@@ -1,0 +1,37 @@
+{
+  "name": "NutriPals — nutrition companion",
+  "short_name": "NutriPals",
+  "description": "A friendly AI nutrition and habit companion. Log meals, water and check-ins without judgement.",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbf7ef",
+  "theme_color": "#0f7b63",
+  "categories": ["health", "fitness", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Log a meal", "url": "/app/log" },
+    { "name": "Scan a meal", "url": "/app/scan" },
+    { "name": "Today", "url": "/app" }
+  ]
+}
